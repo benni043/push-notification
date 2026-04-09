@@ -1,7 +1,6 @@
 import webpush from 'web-push';
 import {subscriptions} from "#server/push-save";
 
-// VAPID Keys vorher generieren und hier einfügen oder aus ENV laden
 webpush.setVapidDetails(
     'mailto:you@example.com',
     'BKkvpMKOQ3wvNUpoohpuZmTUCNe8rH4bZwCbTeLW16F1ZeUm9DDEavdpXOfXIR6PWZpPswiCYte1KMveWMFvslY',
