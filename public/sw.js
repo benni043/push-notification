@@ -1,3 +1,7 @@
+self.addEventListener('install', (event) => {
+    self.skipWaiting(); // Erzwingt die Aktivierung
+});
+
 self.addEventListener('push', function (event) {
     const data = event.data.json();
 
