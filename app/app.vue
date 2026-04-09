@@ -19,11 +19,12 @@ function urlBase64ToUint8Array(base64String: string) {
 onMounted(async () => {
   if ('serviceWorker' in navigator) {
     try {
+      console.log(1)
       const reg = await navigator.serviceWorker.register('/sw.js');
-
+      console.log(2)
       // Warte, bis der Service Worker aktiv ist
       await navigator.serviceWorker.ready;
-
+      console.log(3)
       console.log('SW ist bereit und aktiv:', reg.active);
 
       // Falls er noch im Status "installing" ist, lausche auf Statusänderungen
