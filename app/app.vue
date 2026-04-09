@@ -9,6 +9,14 @@
 </template>
 
 <script setup lang="ts">
+onMounted(() => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('SW registered', reg))
+        .catch(err => console.error('SW registration failed', err));
+  }
+});
+
 async function funct() {
   await $fetch('/api/send-push', {
     method: 'POST',
@@ -16,15 +24,23 @@ async function funct() {
 }
 
 async function subscribe() {
+  console.log(1)
+
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') return;
 
+  console.log(2)
+
   const reg = await navigator.serviceWorker.ready;
+
+  console.log(3)
 
   const sub = await reg.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: 'DEIN_PUBLIC_KEY'
+    applicationServerKey: 'BKkvpMKOQ3wvNUpoohpuZmTUCNe8rH4bZwCbTeLW16F1ZeUm9DDEavdpXOfXIR6PWZpPswiCYte1KMveWMFvslY'
   });
+
+  console.log(4)
 
   await $fetch('/api/subscribe', {
     method: 'POST',

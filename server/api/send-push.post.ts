@@ -1,4 +1,5 @@
 import webpush from 'web-push';
+import {subscriptions} from "#server/push-save";
 
 // VAPID Keys vorher generieren und hier einfügen oder aus ENV laden
 webpush.setVapidDetails(
@@ -7,13 +8,11 @@ webpush.setVapidDetails(
     'wGiryLM_sL1fRZfWhcYeJ_ZgSucqtOn1S_A60lBThnc'
 );
 
-// Dummy: Liste aller gespeicherten Subscriptions
-let subscriptions: any[] = []; // In real: DB oder memory
-
 export default defineEventHandler(async (event) => {
     const payload = JSON.stringify({ title: 'Erinnerung', body: 'Zeit für XYZ' });
 
     for (const sub of subscriptions) {
+        console.log(sub)
         try {
             await webpush.sendNotification(sub, payload);
         } catch (err) {
