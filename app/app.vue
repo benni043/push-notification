@@ -9,11 +9,25 @@
 </template>
 
 <script setup lang="ts">
-onMounted(() => {
+onMounted(async () => {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('SW registered', reg))
-        .catch(err => console.error('SW registration failed', err));
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+
+      // Warte, bis der Service Worker aktiv ist
+      await navigator.serviceWorker.ready;
+
+      console.log('SW ist bereit und aktiv:', reg.active);
+
+      // Falls er noch im Status "installing" ist, lausche auf Statusänderungen
+      if (reg.installing) {
+        reg.installing.addEventListener('statechange', (e) => {
+          console.log('SW Status changed to:', (e.target as any).state);
+        });
+      }
+    } catch (err) {
+      console.error('SW registration failed', err);
+    }
   }
 });
 
